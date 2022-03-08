@@ -23,6 +23,7 @@ public class StarLauncherTrigger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             triggered = true;
+            player.GetComponent<CharacterMovement>().flying = true;
         }
     }
 
@@ -36,11 +37,15 @@ public class StarLauncherTrigger : MonoBehaviour
         player = other.gameObject;
         if (triggered)
         {
-            StarLauncherWalker walker = player.AddComponent<StarLauncherWalker>();
-            walker.spline = path;
-            walker.duration = 5f;
-            walker.lookForward = true;
-            walker.mode = SplineWalkerMode.Once;
+            GameObject walker = new GameObject("Walker");
+            //walker.transform.parent = this.transform;
+            //walker.transform.localPosition = Vector3.zero;
+            player.transform.SetParent(walker.transform);
+            StarLauncherWalker walkerComp = walker.AddComponent<StarLauncherWalker>();
+            walkerComp.spline = path;
+            walkerComp.duration = 5f;
+            walkerComp.lookForward = true;
+            walkerComp.mode = SplineWalkerMode.Once;
             triggered = false;
         }
     }
