@@ -23,25 +23,23 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (controller.isGrounded)
+        if (controller.enabled)
         {
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-            moveDirection *= speed;
+            if (controller.isGrounded)
+            {
+                moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+                moveDirection *= speed;
 
-            if (Input.GetButton("Jump"))
-            {
-                moveDirection.y = jumpSpeed;
+                if (Input.GetButton("Jump"))
+                {
+                    moveDirection.y = jumpSpeed;
+                }
             }
-            /*if (flying)
+            if (!flying)
             {
-                flying = false;
-            }*/
+                moveDirection.y -= gravity * Time.deltaTime;
+            }
+            controller.Move(moveDirection * Time.deltaTime);
         }
-        if (!flying)
-        {
-            Debug.Log("Je passe ici");
-            moveDirection.y -= gravity * Time.deltaTime;
-        }
-        controller.Move(moveDirection * Time.deltaTime);
     }
 }

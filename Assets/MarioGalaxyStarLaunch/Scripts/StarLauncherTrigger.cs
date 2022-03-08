@@ -1,11 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+[Serializable]
+public struct PathEvents
+{
+    [Range(0, 1)]
+    public float progress;
+    public Vector3 rotation;
+}
 
 public class StarLauncherTrigger : MonoBehaviour
 {
+
     [SerializeField]
     private BezierSpline path;
+
+    [SerializeField]
+    private PathEvents[] events;
 
     private GameObject player;
 
@@ -38,14 +51,17 @@ public class StarLauncherTrigger : MonoBehaviour
         if (triggered)
         {
             GameObject walker = new GameObject("Walker");
-            //walker.transform.parent = this.transform;
-            //walker.transform.localPosition = Vector3.zero;
+            walker.transform.parent = this.transform;
+            walker.transform.localPosition = Vector3.zero;
             player.transform.SetParent(walker.transform);
             StarLauncherWalker walkerComp = walker.AddComponent<StarLauncherWalker>();
             walkerComp.spline = path;
             walkerComp.duration = 5f;
-            walkerComp.lookForward = true;
+            walkerComp.lookForward = false;
             walkerComp.mode = SplineWalkerMode.Once;
+            walkerComp.Events = events;
+
+            player.GetComponent<CharacterController>().enabled = false;
             triggered = false;
         }
     }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class StarLauncherWalker : SplineWalker
 {
+	private PathEvents[] events;
+	public PathEvents[] Events { set { events = value; } }
+
     private void Start()
     {
 		this.gameObject.transform.position = spline.GetControlPoint(0);
@@ -18,8 +21,12 @@ public class StarLauncherWalker : SplineWalker
 			{
 				if (mode == SplineWalkerMode.Once)
 				{
+					GameObject player = transform.GetChild(0).gameObject;
+					player.GetComponent<CharacterController>().enabled = true;
+					player.GetComponent<CharacterMovement>().flying = false;
+					this.gameObject.transform.DetachChildren();
 					progress = 1f;
-					Destroy(this);
+					Destroy(this.gameObject);
 				}
 				else if (mode == SplineWalkerMode.Loop)
 				{
@@ -42,8 +49,13 @@ public class StarLauncherWalker : SplineWalker
 			}
 		}
 
+		if(events[0].progress < progress)
+        {
+			transform.rotation *= Quaternion.Euler(events[0].rotation);
+        }
+
 		Vector3 position = spline.GetPoint(progress);
-		transform.position = position;
+		transform.localPosition = position;
 		if (lookForward)
 		{
 			transform.LookAt(position + spline.GetDirection(progress));
