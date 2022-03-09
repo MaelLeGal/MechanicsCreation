@@ -30,6 +30,9 @@ public class StarLauncherTrigger : MonoBehaviour
     [SerializeField]
     private PathEvents[] events;
 
+    [SerializeField]
+    private GameObject trail;
+
     private GameObject player;
 
     private bool triggered = false;
@@ -64,6 +67,7 @@ public class StarLauncherTrigger : MonoBehaviour
         if (triggered)
         {
             GameObject walker = new GameObject("Walker");
+            
             walker.transform.parent = this.transform;
             walker.transform.localPosition = Vector3.zero;
             player.transform.SetParent(walker.transform);
@@ -76,6 +80,7 @@ public class StarLauncherTrigger : MonoBehaviour
             walkerComp.Events = new Queue<PathEvents>(events);
             walkerComp.player = player;
 
+            GameObject trailGO = Instantiate(trail, player.transform);
             player.GetComponent<CharacterMovement>().Launch();
 
             triggered = false;
