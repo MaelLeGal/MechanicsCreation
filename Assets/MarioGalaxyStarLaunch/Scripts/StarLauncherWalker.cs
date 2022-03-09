@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class StarLauncherWalker : SplineWalker
 {
-	private PathEvents[] events;
-	public PathEvents[] Events { set { events = value; } }
+	private Queue<PathEvents> events;
+	public Queue<PathEvents> Events { set { events = value; } }
 
-    private void Start()
+	public GameObject player;
+
+	private void Start()
     {
 		this.gameObject.transform.position = spline.GetControlPoint(0);
-    }
+	}
 
     private void Update()
 	{
@@ -21,9 +24,8 @@ public class StarLauncherWalker : SplineWalker
 			{
 				if (mode == SplineWalkerMode.Once)
 				{
-					GameObject player = transform.GetChild(0).gameObject;
-					player.GetComponent<CharacterController>().enabled = true;
-					player.GetComponent<CharacterMovement>().flying = false;
+					player.GetComponent<CharacterMovement>().Landing();
+					
 					this.gameObject.transform.DetachChildren();
 					progress = 1f;
 					Destroy(this.gameObject);
@@ -47,12 +49,22 @@ public class StarLauncherWalker : SplineWalker
 				progress = -progress;
 				goingForward = true;
 			}
-		}
+		} 
 
-		if(events[0].progress < progress)
-        {
-			transform.rotation *= Quaternion.Euler(events[0].rotation);
-        }
+
+		if (events.Count > 0)
+		{
+			if (events.Peek().progress <= progress)
+			{
+				PathEvents pathEvent = events.Dequeue();
+				transform.rotation *= Quaternion.Euler(pathEvent.rotationWalker);
+				player.transform.rotation *= Quaternion.Euler(pathEvent.rotationPlayer);
+				if(pathEvent.camera != null)
+                {
+					pathEvent.camera.MoveToTopOfPrioritySubqueue();
+                }
+			}
+		}
 
 		Vector3 position = spline.GetPoint(progress);
 		transform.localPosition = position;

@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 [RequireComponent(typeof(CharacterController))]
 public class CharacterMovement : MonoBehaviour
-{ 
+{
+    //public Camera camera;
+    public CinemachineFreeLook thirdPersonCamera;
+
     public float speed = 10f;
     public float jumpSpeed = 8f;
     public float gravity = 20f;
@@ -27,7 +31,8 @@ public class CharacterMovement : MonoBehaviour
         {
             if (controller.isGrounded)
             {
-                moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+                moveDirection = Input.GetAxis("Horizontal") * Camera.main.transform.right + Input.GetAxis("Vertical") * Camera.main.transform.forward;
+                moveDirection.y = 0f;
                 moveDirection *= speed;
 
                 if (Input.GetButton("Jump"))
@@ -41,5 +46,18 @@ public class CharacterMovement : MonoBehaviour
             }
             controller.Move(moveDirection * Time.deltaTime);
         }
+    }
+
+    public void Launch()
+    {
+        flying = true;
+        GetComponent<CharacterController>().enabled = false;
+    }
+
+    public void Landing()
+    {
+        GetComponent<CharacterController>().enabled = true;
+        flying = false;
+        thirdPersonCamera.MoveToTopOfPrioritySubqueue();
     }
 }
