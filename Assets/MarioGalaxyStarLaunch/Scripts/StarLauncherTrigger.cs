@@ -35,6 +35,7 @@ public class StarLauncherTrigger : MonoBehaviour
     public ParticleSystem StarMoveIn;
     public ParticleSystem StarBurst;
     public ParticleSystem StarChargeUp;
+    public Animator StarAnimator;
 
     [SerializeField]
     private BezierSpline path;
@@ -78,11 +79,8 @@ public class StarLauncherTrigger : MonoBehaviour
         player = other.gameObject;
         if (triggered)
         {
-            StarChargeUp.Play();
-            while (StarChargeUp.isPlaying)
-            {
-
-            }
+            StartCoroutine(StarLaunchAnimation());
+            StarAnimator.SetTrigger("TriggerLaunch");
             StarBurst.Play();
 
             GameObject walker = new GameObject("Walker");
@@ -103,11 +101,19 @@ public class StarLauncherTrigger : MonoBehaviour
             player.GetComponent<CharacterMovement>().Launch();
 
             triggered = false;
+            //StarAnimator.ResetTrigger("TriggerLaunch");
+            //StarAnimator.SetBool("Triggered", false);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         player = null;
+    }
+
+    IEnumerator StarLaunchAnimation()
+    {
+        StarChargeUp.Play();
+        yield return null;
     }
 }
