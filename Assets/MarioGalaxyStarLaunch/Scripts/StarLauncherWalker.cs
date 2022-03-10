@@ -61,7 +61,13 @@ public class StarLauncherWalker : SplineWalker
 				player.transform.rotation *= Quaternion.Euler(pathEvent.rotationPlayer);
 				if(pathEvent.camera != null)
                 {
-					pathEvent.camera.LookAt = player.transform;
+					if (pathEvent.cameraTargets.lookAt) {
+						pathEvent.camera.LookAt = pathEvent.cameraTargets.lookAt;
+					}
+                    if (pathEvent.cameraTargets.follow)
+                    {
+						pathEvent.camera.Follow = pathEvent.cameraTargets.follow;
+                    }
 					pathEvent.camera.MoveToTopOfPrioritySubqueue();
                 }
 			}

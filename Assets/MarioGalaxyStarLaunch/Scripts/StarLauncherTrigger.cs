@@ -19,10 +19,22 @@ public struct PathEvents
     public Vector3 rotationWalker;
     public Vector3 rotationPlayer;
     public Cinemachine.CinemachineVirtualCamera camera;
+    public CameraTargets cameraTargets;
+}
+
+[Serializable]
+public struct CameraTargets
+{
+    public Transform follow;
+    public Transform lookAt;
 }
 
 public class StarLauncherTrigger : MonoBehaviour
 {
+
+    public ParticleSystem StarMoveIn;
+    public ParticleSystem StarBurst;
+    public ParticleSystem StarChargeUp;
 
     [SerializeField]
     private BezierSpline path;
@@ -66,6 +78,13 @@ public class StarLauncherTrigger : MonoBehaviour
         player = other.gameObject;
         if (triggered)
         {
+            StarChargeUp.Play();
+            while (StarChargeUp.isPlaying)
+            {
+
+            }
+            StarBurst.Play();
+
             GameObject walker = new GameObject("Walker");
             
             walker.transform.parent = this.transform;
