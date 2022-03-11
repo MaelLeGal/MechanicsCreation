@@ -32,9 +32,6 @@ public struct CameraTargets
 public class StarLauncherTrigger : MonoBehaviour
 {
 
-    public ParticleSystem StarMoveIn;
-    public ParticleSystem StarBurst;
-    public ParticleSystem StarChargeUp;
     public Animator StarAnimator;
 
     [SerializeField]
@@ -53,7 +50,7 @@ public class StarLauncherTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        triggered = false;
     }
 
     // Update is called once per frame
@@ -66,8 +63,35 @@ public class StarLauncherTrigger : MonoBehaviour
         }
     }
 
+    public void Launch()
+    {
+        GameObject walker = new GameObject("Walker");
+
+        walker.transform.parent = this.transform;
+        walker.transform.localPosition = Vector3.zero;
+        player.transform.SetParent(walker.transform);
+        walker.transform.up = path.GetVelocity(0);
+        StarLauncherWalker walkerComp = walker.AddComponent<StarLauncherWalker>();
+        walkerComp.spline = path;
+        walkerComp.duration = 5f;
+        walkerComp.lookForward = false;
+        walkerComp.mode = SplineWalkerMode.Once;
+        walkerComp.Events = new Queue<PathEvents>(events);
+        walkerComp.player = player;
+
+        GameObject trailGO = Instantiate(trail, player.transform);
+
+        triggered = false;
+    }
+
+    public void ResetTrigger()
+    {
+        StarAnimator.ResetTrigger("TriggerLaunch");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(triggered);
         if (other is CharacterController)
         {
             player = other.gameObject;
@@ -79,41 +103,20 @@ public class StarLauncherTrigger : MonoBehaviour
         player = other.gameObject;
         if (triggered)
         {
-            StartCoroutine(StarLaunchAnimation());
+            Debug.Log("Triggered");
             StarAnimator.SetTrigger("TriggerLaunch");
-            StarBurst.Play();
 
-            GameObject walker = new GameObject("Walker");
-            
-            walker.transform.parent = this.transform;
-            walker.transform.localPosition = Vector3.zero;
-            player.transform.SetParent(walker.transform);
-            walker.transform.up = path.GetVelocity(0);
-            StarLauncherWalker walkerComp = walker.AddComponent<StarLauncherWalker>();
-            walkerComp.spline = path;
-            walkerComp.duration = 5f;
-            walkerComp.lookForward = false;
-            walkerComp.mode = SplineWalkerMode.Once;
-            walkerComp.Events = new Queue<PathEvents>(events);
-            walkerComp.player = player;
-
-            GameObject trailGO = Instantiate(trail, player.transform);
             player.GetComponent<CharacterMovement>().Launch();
-
-            triggered = false;
-            //StarAnimator.ResetTrigger("TriggerLaunch");
-            //StarAnimator.SetBool("Triggered", false);
+            Transform star = this.transform.Find("Star").Find("Plane");
+            player.transform.SetPositionAndRotation(star.position,star.rotation * Quaternion.Euler(new Vector3(90f, 0f,0f)));
+            
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        triggered = false;
         player = null;
     }
 
-    IEnumerator StarLaunchAnimation()
-    {
-        StarChargeUp.Play();
-        yield return null;
-    }
 }
