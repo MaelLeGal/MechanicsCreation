@@ -24,7 +24,7 @@ public class StarLauncherWalker : SplineWalker
 			{
 				if (mode == SplineWalkerMode.Once)
 				{
-					player.GetComponent<CharacterMovement>().Landing();
+					//player.GetComponent<CharacterMovement>().Landing();
 					
 					this.gameObject.transform.DetachChildren();
 					progress = 1f;
@@ -52,7 +52,7 @@ public class StarLauncherWalker : SplineWalker
 		} 
 
 
-		if (events.Count > 0)
+		/*if (events.Count > 0)
 		{
 			if (events.Peek().progress <= progress)
 			{
@@ -71,7 +71,7 @@ public class StarLauncherWalker : SplineWalker
 					pathEvent.camera.MoveToTopOfPrioritySubqueue();
                 }
 			}
-		}
+		}*/
 
 		Vector3 position = spline.GetPoint(progress);
 		transform.localPosition = position;

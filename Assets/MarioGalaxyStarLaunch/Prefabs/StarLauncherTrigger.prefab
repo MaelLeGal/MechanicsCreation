@@ -108,6 +108,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5965b03f4795ae1408e5b89077473df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StarMoveIn: {fileID: 0}
+  StarBurst: {fileID: 0}
+  StarChargeUp: {fileID: 0}
+  StarAnimator: {fileID: 0}
   path: {fileID: 3541360889164865533}
   events: []
   trail: {fileID: 0}
@@ -170,7 +174,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8090fa2d5d17fa54a87835c522695b7b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -283,7 +287,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8090fa2d5d17fa54a87835c522695b7b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
