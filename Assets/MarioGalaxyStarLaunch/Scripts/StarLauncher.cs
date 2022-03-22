@@ -7,6 +7,9 @@ public class StarLauncher : MonoBehaviour
     [SerializeField]
     private BezierSpline path;
 
+    public Animator StarAnimator;
+    public GameObject trail;
+
     GameObject character;
 
     // Start is called before the first frame update
@@ -25,7 +28,10 @@ public class StarLauncher : MonoBehaviour
     {
         if (character != null)
         {
-            CreateWalker();
+            Transform star = this.transform.Find("Star").Find("Plane");
+            Debug.Log(star.position);
+            character.transform.SetPositionAndRotation(star.position, star.rotation * Quaternion.Euler(new Vector3(90f, 0f, 0f)));
+            StarAnimator.SetTrigger("TriggerLaunch");
         }
     }
 
@@ -58,6 +64,22 @@ public class StarLauncher : MonoBehaviour
         walkerComp.duration = 5f;
         walkerComp.lookForward = false;
         walkerComp.mode = SplineWalkerMode.Once;
-        walkerComp.player = character;
+        walkerComp.character = character;
+    }
+
+    private void AttachTrailToCharacter()
+    {
+        GameObject trailGO = Instantiate(trail, character.transform);
+    }
+
+    public void Launch()
+    {
+        CreateWalker();
+        AttachTrailToCharacter();
+    }
+
+    public void ResetAnimationTrigger()
+    {
+        StarAnimator.ResetTrigger("TriggerLaunch");
     }
 }

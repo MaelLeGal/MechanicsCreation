@@ -766,21 +766,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: LaunchStarChargeUpEmitter
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
     functionName: LaunchStarMoveInEmitter
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 2.3
-    functionName: StopStarMoveInEmitter
+  - time: 0
+    functionName: LaunchStarChargeUpEmitter
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -788,6 +781,13 @@ AnimationClip:
     messageOptions: 0
   - time: 2.3
     functionName: LaunchStarBurstEmitter
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.3
+    functionName: StopStarMoveInEmitter
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

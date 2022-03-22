@@ -17,38 +17,40 @@ public class CharacterInputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(character.isGrounded)
+        if (character.State != CharacterStateEnum.FLYING)
         {
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            if (character.isGrounded)
             {
-                character.SetNewState(CharacterStateEnum.RUNNING);
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+                {
+                    character.SetNewState(CharacterStateEnum.RUNNING);
+                }
+                else
+                {
+                    character.SetNewState(CharacterStateEnum.IDLE);
+                }
+
+                if (Input.GetButton("Jump"))
+                {
+                    character.SetNewState(CharacterStateEnum.JUMPING);
+                }
+
             }
             else
             {
-                character.SetNewState(CharacterStateEnum.IDLE);
+                character.SetNewState(CharacterStateEnum.FALLING);
             }
 
-            if (Input.GetButton("Jump"))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                character.SetNewState(CharacterStateEnum.JUMPING);
-            }
-
-        }
-        else
-        { 
-            character.SetNewState(CharacterStateEnum.FALLING);
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if(starLauncherTriggerEvent != null)
-            {
-                starLauncherTriggerEvent(character);
+                if (starLauncherTriggerEvent != null)
+                {
+                    starLauncherTriggerEvent(character);
+                }
             }
         }
 
-        character.SetNewState(character.State.handleInput(ref moveDirection));
+        character.SetNewState(character.handleInput(ref moveDirection));
     }
 
     public delegate void PlayerTriggeredStarLauncher(Character character);

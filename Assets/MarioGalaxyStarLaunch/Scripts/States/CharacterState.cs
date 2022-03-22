@@ -7,7 +7,8 @@ public enum CharacterStateEnum
     IDLE,
     RUNNING,
     FALLING,
-    JUMPING
+    JUMPING,
+    FLYING
 }
 public class CharacterState
 {

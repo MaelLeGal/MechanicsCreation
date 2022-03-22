@@ -10,12 +10,12 @@ public class LaunchTimelineAnimation : MonoBehaviour
 
     public void LaunchPlayer()
     {
-        GetComponentInParent<StarLauncherTrigger>().Launch();
+        GetComponentInParent<StarLauncher>().Launch();
     }
 
     public void ResetTrigger()
     {
-        GetComponentInParent<StarLauncherTrigger>().ResetTrigger();
+        GetComponentInParent<StarLauncher>().ResetAnimationTrigger();
     }
 
     public void LaunchStarChargeUpEmitter()

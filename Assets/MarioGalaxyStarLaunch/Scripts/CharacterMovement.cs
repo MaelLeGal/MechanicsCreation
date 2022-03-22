@@ -3,8 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-[RequireComponent(typeof(CharacterController))]
-public class CharacterMovement : MonoBehaviour
+/*public enum CharacterState
+{
+    FLYING,
+    GROUNDED,
+    JUMPING,
+    RUNNING,
+    IDLE,
+    ACTIVATEDTRIGGER
+}*/
+
+//[RequireComponent(typeof(CharacterController))]
+/*public class CharacterMovement : MonoBehaviour
 {
     //public Camera camera;
     public CinemachineFreeLook thirdPersonCamera;
@@ -17,16 +27,56 @@ public class CharacterMovement : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
+    private HashSet<CharacterState> states = new HashSet<CharacterState>();
 
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<CharacterController>();        
+        controller = GetComponent<CharacterController>();
+        states.Add(CharacterState.IDLE);
+        if (controller.isGrounded)
+        {
+            states.Add(CharacterState.GROUNDED);
+        }
+        else
+        {
+            states.Add(CharacterState.JUMPING);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (controller.isGrounded)
+        {
+            states.Add(CharacterState.GROUNDED);
+        }
+
+        if (Input.GetButton("Jump"))
+        {
+            states.Add(CharacterState.JUMPING);
+            moveDirection.y = jumpSpeed;
+        }
+
+        if(Input.GetAxis("Horizontal") != 0|| Input.GetAxis("Vertical") != 0)
+        {
+            states.Add(CharacterState.RUNNING);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+
+        }
+
+
+
+
+        if(states.Count == 0)
+        {
+            states.Add(CharacterState.IDLE);
+        }
+
         if (controller.enabled)
         {
             if (controller.isGrounded)
@@ -60,4 +110,14 @@ public class CharacterMovement : MonoBehaviour
         flying = false;
         thirdPersonCamera.MoveToTopOfPrioritySubqueue();
     }
-}
+
+    public void AddState(CharacterState state)
+    {
+        states.Add(state);
+    }
+
+    public void RemoveState(CharacterState state)
+    {
+        states.Remove(state);
+    }
+}*/

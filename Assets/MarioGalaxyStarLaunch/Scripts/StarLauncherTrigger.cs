@@ -77,7 +77,7 @@ public class StarLauncherTrigger : MonoBehaviour
         walkerComp.lookForward = false;
         walkerComp.mode = SplineWalkerMode.Once;
         walkerComp.Events = new Queue<PathEvents>(events);
-        walkerComp.player = player;
+        walkerComp.character = player;
 
         GameObject trailGO = Instantiate(trail, player.transform);
 
@@ -98,7 +98,7 @@ public class StarLauncherTrigger : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    /*private void OnTriggerStay(Collider other)
     {
         player = other.gameObject;
         if (triggered)
@@ -111,7 +111,7 @@ public class StarLauncherTrigger : MonoBehaviour
             player.transform.SetPositionAndRotation(star.position,star.rotation * Quaternion.Euler(new Vector3(90f, 0f,0f)));
             
         }
-    }
+    }*/
 
     private void OnTriggerExit(Collider other)
     {

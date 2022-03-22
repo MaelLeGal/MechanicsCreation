@@ -8,7 +8,7 @@ public class StarLauncherWalker : SplineWalker
 	private Queue<PathEvents> events;
 	public Queue<PathEvents> Events { set { events = value; } }
 
-	public GameObject player;
+	public GameObject character;
 
 	private void Start()
     {
@@ -25,6 +25,8 @@ public class StarLauncherWalker : SplineWalker
 				if (mode == SplineWalkerMode.Once)
 				{
 					//player.GetComponent<CharacterMovement>().Landing();
+
+					character.GetComponent<Character>().SetNewState(CharacterStateEnum.FALLING);
 					
 					this.gameObject.transform.DetachChildren();
 					progress = 1f;
@@ -74,7 +76,7 @@ public class StarLauncherWalker : SplineWalker
 		}*/
 
 		Vector3 position = spline.GetPoint(progress);
-		transform.localPosition = position;
+		transform.position = position; // Was transfiorm.localPosition
 		if (lookForward)
 		{
 			transform.LookAt(position + spline.GetDirection(progress));
