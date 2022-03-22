@@ -24,8 +24,7 @@ public class StarLauncherWalker : SplineWalker
 			{
 				if (mode == SplineWalkerMode.Once)
 				{
-					//player.GetComponent<CharacterMovement>().Landing();
-
+					character.transform.rotation = Quaternion.identity;
 					character.GetComponent<Character>().SetNewState(CharacterStateEnum.FALLING);
 					
 					this.gameObject.transform.DetachChildren();

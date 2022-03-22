@@ -26,11 +26,12 @@ public class StarLauncher : MonoBehaviour
 
     private void onTrigger(Character _character)
     {
-        if (character != null)
+        if (character != null && character.GetComponent<Character>() == _character)
         {
             Transform star = this.transform.Find("Star").Find("Plane");
             Debug.Log(star.position);
-            character.transform.SetPositionAndRotation(star.position, star.rotation * Quaternion.Euler(new Vector3(90f, 0f, 0f)));
+            _character.SetNewState(CharacterStateEnum.FLYING);
+            _character.transform.SetPositionAndRotation(star.position, star.rotation * Quaternion.Euler(new Vector3(90f, 0f, 0f)));
             StarAnimator.SetTrigger("TriggerLaunch");
         }
     }
@@ -80,6 +81,7 @@ public class StarLauncher : MonoBehaviour
 
     public void ResetAnimationTrigger()
     {
+        Debug.Log("Called");
         StarAnimator.ResetTrigger("TriggerLaunch");
     }
 }

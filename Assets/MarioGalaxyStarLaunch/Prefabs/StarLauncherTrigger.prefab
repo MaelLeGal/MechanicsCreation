@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 3541360890044031363}
   - component: {fileID: 3541360890044031372}
   - component: {fileID: 3541360890044031373}
+  - component: {fileID: 1399227678543180031}
   m_Layer: 0
   m_Name: StarLauncherTrigger
   m_TagString: Untagged
@@ -112,6 +113,21 @@ MonoBehaviour:
   path: {fileID: 3541360889164865533}
   events: []
   trail: {fileID: 0}
+--- !u!114 &1399227678543180031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541360890044031374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af0c72ef5b417745ad0968f362956ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: {fileID: 3541360889164865533}
+  StarAnimator: {fileID: 5354069540563919018}
+  trail: {fileID: 3737142194730170133, guid: 22d6f32a9d57dd643be46a11436b8258, type: 3}
 --- !u!1 &5926243767625144299
 GameObject:
   m_ObjectHideFlags: 0
