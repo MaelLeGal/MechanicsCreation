@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallingState : RunningState
+public class FallingState : CharacterState
 {
-    private float gravity = 20f;
+    public float gravity = 20f;
 
-    public FallingState(float _gravity, float _speed, ref CharacterController _controller) : base (_speed, ref _controller)
+    public override CharacterStateEnum StateType => CharacterStateEnum.FALLING;
+
+    public FallingState()
     {
-        this.gravity = _gravity;
+
     }
-    public override CharacterStateEnum handleInput(ref Vector3 moveDirection)
+
+    public override CharacterStateEnum handleInput(ref CharacterController controller, ref Vector3 moveDirection)
     {
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);

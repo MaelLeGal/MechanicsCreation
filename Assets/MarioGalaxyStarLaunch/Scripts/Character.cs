@@ -1,48 +1,41 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class Character : MonoBehaviour
 {
     [SerializeField]
     private CharacterState state;
-    public CharacterStateEnum State { get {
-            return statesEnum[state];
-        }
-    }
+    public CharacterStateEnum State => state.StateType;
 
-
-    private Dictionary<CharacterStateEnum,CharacterState> states = new Dictionary<CharacterStateEnum, CharacterState>();
-    private Dictionary<CharacterState, CharacterStateEnum> statesEnum = new Dictionary<CharacterState, CharacterStateEnum>();
+    private static Dictionary<CharacterStateEnum, CharacterState> states = new Dictionary<CharacterStateEnum, CharacterState>();
 
     [SerializeField]
     private CharacterController controller;
     public float speed = 10f;
     public float jumpSpeed = 8f;
-    private float gravity = 20f;
+    public float gravity = 20f;
     public bool isGrounded { get => controller.isGrounded; }
 
     private void Awake()
     {
-        IdleState idleState = new IdleState();
-        RunningState runningState = new RunningState(speed, ref controller);
-        FallingState fallingState = new FallingState(gravity, speed, ref controller);
-        JumpingState jumpingState = new JumpingState(jumpSpeed, speed, ref controller);
-        FlyingState flyingState = new FlyingState();
 
-        states.Add(CharacterStateEnum.IDLE, idleState);
-        states.Add(CharacterStateEnum.RUNNING, runningState);
-        states.Add(CharacterStateEnum.FALLING, fallingState);
-        states.Add(CharacterStateEnum.JUMPING, jumpingState);
-        states.Add(CharacterStateEnum.FLYING, flyingState);
+        var allStatesTypes = Assembly.GetAssembly(typeof(CharacterState)).GetTypes()
+                                .Where(t => typeof(CharacterState).IsAssignableFrom(t) && t.IsAbstract == false);
 
-        statesEnum.Add(idleState,CharacterStateEnum.IDLE);
-        statesEnum.Add(runningState, CharacterStateEnum.RUNNING);
-        statesEnum.Add(fallingState, CharacterStateEnum.FALLING);
-        statesEnum.Add(jumpingState, CharacterStateEnum.JUMPING);
-        statesEnum.Add(flyingState, CharacterStateEnum.FLYING);
+        foreach(var stateType in allStatesTypes)
+        {
+            CharacterState state = Activator.CreateInstance(stateType) as CharacterState;
+            states.Add(state.StateType, state);
+        }
 
-        state = states[CharacterStateEnum.FALLING]; 
+        InitializeStatesFields();
+
+        state = states[CharacterStateEnum.FALLING];
     }
 
     public void SetNewState(CharacterStateEnum newState)
@@ -50,8 +43,16 @@ public class Character : MonoBehaviour
         state = states[newState];
     }
 
-    public CharacterStateEnum handleInput(ref Vector3 moveDirection)
+    public CharacterStateEnum handleInput(ref CharacterController controller, ref Vector3 moveDirection)
     {
-        return state.handleInput(ref moveDirection);
+        return state.handleInput(ref controller, ref moveDirection);
+    }
+
+    public void InitializeStatesFields()
+    {
+        //Painfull to do... Is there a better way ?
+        (states[CharacterStateEnum.FALLING] as FallingState).gravity = gravity;
+        (states[CharacterStateEnum.RUNNING] as RunningState).speed = speed;
+        (states[CharacterStateEnum.JUMPING] as JumpingState).jumpSpeed = jumpSpeed;
     }
 }

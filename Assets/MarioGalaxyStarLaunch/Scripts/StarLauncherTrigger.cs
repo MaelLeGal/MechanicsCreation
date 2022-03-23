@@ -91,7 +91,7 @@ public class StarLauncherTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(triggered);
+        //Debug.Log(triggered);
         if (other is CharacterController)
         {
             player = other.gameObject;

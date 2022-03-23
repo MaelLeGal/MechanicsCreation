@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpingState : RunningState
+public class JumpingState : CharacterState
 {
-    private float jumpSpeed = 8f;
+    public float jumpSpeed = 8f;
+    public override CharacterStateEnum StateType => CharacterStateEnum.JUMPING;
 
-    public JumpingState(float _jumpSpeed, float _speed, ref CharacterController _controller) : base(_speed, ref _controller)
+    public JumpingState()
     {
-        this.jumpSpeed = _jumpSpeed;
+
     }
-    public override CharacterStateEnum handleInput(ref Vector3 moveDirection)
+
+    public override CharacterStateEnum handleInput(ref CharacterController controller, ref Vector3 moveDirection)
     {
-        base.handleInput(ref moveDirection);
+        //base.handleInput(ref moveDirection);
         moveDirection.y = jumpSpeed;
         controller.Move(moveDirection * Time.deltaTime);
         return CharacterStateEnum.IDLE;

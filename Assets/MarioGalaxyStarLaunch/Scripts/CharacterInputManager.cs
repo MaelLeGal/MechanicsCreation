@@ -5,13 +5,14 @@ using UnityEngine;
 public class CharacterInputManager : MonoBehaviour
 {
     public Character character;
+    private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
     public event PlayerTriggeredStarLauncher starLauncherTriggerEvent;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        controller = character.GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -50,7 +51,7 @@ public class CharacterInputManager : MonoBehaviour
             }
         }
 
-        character.SetNewState(character.handleInput(ref moveDirection));
+        character.SetNewState(character.handleInput(ref controller, ref moveDirection));
     }
 
     public delegate void PlayerTriggeredStarLauncher(Character character);

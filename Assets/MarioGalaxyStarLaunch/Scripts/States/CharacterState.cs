@@ -10,10 +10,11 @@ public enum CharacterStateEnum
     JUMPING,
     FLYING
 }
-public class CharacterState
+public abstract class CharacterState
 {
-    protected CharacterController controller;
-    virtual public CharacterStateEnum handleInput(ref Vector3 moveDirection)
+    protected CharacterStateEnum stateType;
+    public abstract CharacterStateEnum StateType { get; }
+    virtual public CharacterStateEnum handleInput(ref CharacterController controller, ref Vector3 moveDirection)
     {
         return CharacterStateEnum.IDLE;
     }
