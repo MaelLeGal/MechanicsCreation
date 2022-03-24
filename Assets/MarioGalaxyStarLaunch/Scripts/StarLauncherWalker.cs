@@ -24,8 +24,10 @@ public class StarLauncherWalker : SplineWalker
 			{
 				if (mode == SplineWalkerMode.Once)
 				{
+
+					Destroy(this.GetComponentInChildren<TrailRenderer>().gameObject);
 					character.transform.rotation = Quaternion.identity;
-					character.GetComponent<Character>().SetNewState(CharacterStateEnum.FALLING);
+					character.GetComponent<Character>().SetNewState(CharacterStateEnum.FALLING); // Change to notification ?
 					
 					this.gameObject.transform.DetachChildren();
 					progress = 1f;
@@ -53,32 +55,38 @@ public class StarLauncherWalker : SplineWalker
 		} 
 
 
-		/*if (events.Count > 0)
+		if (events.Count > 0)
 		{
-			if (events.Peek().progress <= progress)
-			{
-				PathEvents pathEvent = events.Dequeue();
-				transform.rotation *= Quaternion.Euler(pathEvent.rotationWalker);
-				player.transform.rotation *= Quaternion.Euler(pathEvent.rotationPlayer);
-				if(pathEvent.camera != null)
-                {
-					if (pathEvent.cameraTargets.lookAt) {
-						pathEvent.camera.LookAt = pathEvent.cameraTargets.lookAt;
-					}
-                    if (pathEvent.cameraTargets.follow)
-                    {
-						pathEvent.camera.Follow = pathEvent.cameraTargets.follow;
-                    }
-					pathEvent.camera.MoveToTopOfPrioritySubqueue();
-                }
-			}
-		}*/
+			ProcessPathEvent();
+		}
 
 		Vector3 position = spline.GetPoint(progress);
-		transform.position = position; // Was transfiorm.localPosition
+		transform.position = position; // Was transform.localPosition
 		if (lookForward)
 		{
 			transform.LookAt(position + spline.GetDirection(progress));
+		}
+	}
+
+	private void ProcessPathEvent()
+    {
+		if (events.Peek().progress <= progress)
+		{
+			PathEvents pathEvent = events.Dequeue();
+			transform.rotation *= Quaternion.Euler(pathEvent.rotationWalker);
+			character.transform.rotation *= Quaternion.Euler(pathEvent.rotationPlayer);
+			if (pathEvent.camera != null)
+			{
+				if (pathEvent.cameraTargets.lookAt)
+				{
+					pathEvent.camera.LookAt = pathEvent.cameraTargets.lookAt;
+				}
+				if (pathEvent.cameraTargets.follow)
+				{
+					pathEvent.camera.Follow = pathEvent.cameraTargets.follow;
+				}
+				pathEvent.camera.MoveToTopOfPrioritySubqueue();
+			}
 		}
 	}
 }

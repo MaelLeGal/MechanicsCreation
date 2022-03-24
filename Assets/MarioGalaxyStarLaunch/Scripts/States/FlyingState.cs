@@ -10,6 +10,7 @@ public class FlyingState : CharacterState
     }
     override public CharacterStateEnum handleInput(ref CharacterController controller, ref Vector3 moveDirection)
     {
+        moveDirection = Vector3.zero;
         return CharacterStateEnum.FLYING;
     }
 }

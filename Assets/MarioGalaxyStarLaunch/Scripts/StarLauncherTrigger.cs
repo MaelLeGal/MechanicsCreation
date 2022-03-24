@@ -4,31 +4,6 @@ using UnityEngine;
 using System;
 
 
-/*
- * Represent an event done at progress time on the curve
- * Rotation player and walker might be added
- * Name of an animation to be launched might be added
- * Switch camera might be added
- * VFX launch
- * */
-[Serializable]
-public struct PathEvents
-{
-    [Range(0, 1)]
-    public float progress;
-    public Vector3 rotationWalker;
-    public Vector3 rotationPlayer;
-    public Cinemachine.CinemachineVirtualCamera camera;
-    public CameraTargets cameraTargets;
-}
-
-[Serializable]
-public struct CameraTargets
-{
-    public Transform follow;
-    public Transform lookAt;
-}
-
 public class StarLauncherTrigger : MonoBehaviour
 {
 

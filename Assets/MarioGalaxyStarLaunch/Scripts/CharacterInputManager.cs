@@ -18,6 +18,7 @@ public class CharacterInputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(character.isGrounded);
         if (character.State != CharacterStateEnum.FLYING)
         {
             if (character.isGrounded)
@@ -28,7 +29,7 @@ public class CharacterInputManager : MonoBehaviour
                 }
                 else
                 {
-                    character.SetNewState(CharacterStateEnum.IDLE);
+                    character.SetNewState(CharacterStateEnum.FALLING);
                 }
 
                 if (Input.GetButton("Jump"))

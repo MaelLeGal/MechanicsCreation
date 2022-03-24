@@ -1,6 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
+/*
+ * Represent an event done at progress time on the curve
+ * Rotation player and walker might be added
+ * Name of an animation to be launched might be added
+ * Switch camera might be added
+ * VFX launch
+ * */
+[Serializable]
+public struct PathEvents
+{
+    [Range(0, 1)]
+    public float progress;
+    public Vector3 rotationWalker;
+    public Vector3 rotationPlayer;
+    public string animationName;
+    public Cinemachine.CinemachineVirtualCamera camera;
+    public CameraTargets cameraTargets;
+}
+
+[Serializable]
+public struct CameraTargets
+{
+    public Transform follow;
+    public Transform lookAt;
+}
 
 public class StarLauncher : MonoBehaviour
 {
@@ -10,7 +38,10 @@ public class StarLauncher : MonoBehaviour
     public Animator StarAnimator;
     public GameObject trail;
 
-    GameObject character;
+    [SerializeField]
+    private PathEvents[] events;
+
+    private GameObject character;
 
     // Start is called before the first frame update
     void Start()
@@ -63,9 +94,10 @@ public class StarLauncher : MonoBehaviour
         StarLauncherWalker walkerComp = walker.AddComponent<StarLauncherWalker>();
         walkerComp.spline = path;
         walkerComp.duration = 5f;
-        walkerComp.lookForward = false;
+        walkerComp.lookForward = true;
         walkerComp.mode = SplineWalkerMode.Once;
         walkerComp.character = character;
+        walkerComp.Events = new Queue<PathEvents>(events.OrderBy(e => e.progress));
     }
 
     private void AttachTrailToCharacter()
