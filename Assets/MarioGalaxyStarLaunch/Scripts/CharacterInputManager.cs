@@ -18,7 +18,7 @@ public class CharacterInputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(character.isGrounded);
+
         if (character.State != CharacterStateEnum.FLYING)
         {
             if (character.isGrounded)
@@ -53,6 +53,10 @@ public class CharacterInputManager : MonoBehaviour
         }
 
         character.SetNewState(character.handleInput(ref controller, ref moveDirection));
+
+        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+        character.transform.rotation = Quaternion.LookRotation(movement);
+
     }
 
     public delegate void PlayerTriggeredStarLauncher(Character character);

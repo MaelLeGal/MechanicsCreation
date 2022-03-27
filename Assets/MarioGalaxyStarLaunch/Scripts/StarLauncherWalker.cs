@@ -9,10 +9,12 @@ public class StarLauncherWalker : SplineWalker
 	public Queue<PathEvents> Events { set { events = value; } }
 
 	public GameObject character;
+	public Animator characterAnimator;
 
 	private void Start()
     {
 		this.gameObject.transform.position = spline.GetControlPoint(0);
+		characterAnimator = character.GetComponent<Animator>();
 	}
 
     private void Update()
@@ -62,10 +64,16 @@ public class StarLauncherWalker : SplineWalker
 
 		Vector3 position = spline.GetPoint(progress);
 		transform.position = position; // Was transform.localPosition
+		
+		
 		if (lookForward)
 		{
 			transform.LookAt(position + spline.GetDirection(progress));
 		}
+
+		transform.up = position + spline.GetDirection(progress);
+		//character.transform.localEulerAngles = new Vector3(90, 0, 0);
+		//character.transform.up = (position + spline.GetDirection(progress));
 	}
 
 	private void ProcessPathEvent()
@@ -73,8 +81,12 @@ public class StarLauncherWalker : SplineWalker
 		if (events.Peek().progress <= progress)
 		{
 			PathEvents pathEvent = events.Dequeue();
-			transform.rotation *= Quaternion.Euler(pathEvent.rotationWalker);
-			character.transform.rotation *= Quaternion.Euler(pathEvent.rotationPlayer);
+
+			if(pathEvent.animationName != null)
+            {
+				characterAnimator.SetTrigger(pathEvent.animationName);
+			}
+
 			if (pathEvent.camera != null)
 			{
 				if (pathEvent.cameraTargets.lookAt)

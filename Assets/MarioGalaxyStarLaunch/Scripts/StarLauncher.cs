@@ -16,8 +16,6 @@ public struct PathEvents
 {
     [Range(0, 1)]
     public float progress;
-    public Vector3 rotationWalker;
-    public Vector3 rotationPlayer;
     public string animationName;
     public Cinemachine.CinemachineVirtualCamera camera;
     public CameraTargets cameraTargets;
@@ -62,7 +60,13 @@ public class StarLauncher : MonoBehaviour
         {
             Transform star = this.transform.Find("Star").Find("Plane");
             _character.SetNewState(CharacterStateEnum.FLYING);
-            _character.transform.SetPositionAndRotation(star.position, star.rotation * Quaternion.Euler(new Vector3(90f, 0f, 0f)));
+            character.gameObject.transform.position = star.position;
+            Debug.Log(character.transform.eulerAngles);
+            character.gameObject.transform.eulerAngles = this.gameObject.transform.eulerAngles;
+            Debug.Log(this.gameObject.transform.eulerAngles);
+            Debug.Log(character.transform.eulerAngles);
+            Debug.Log(character);
+            //_character.transform.SetPositionAndRotation(star.position, star.rotation);
             StarAnimator.SetTrigger("TriggerLaunch");
         }
     }
@@ -89,12 +93,14 @@ public class StarLauncher : MonoBehaviour
 
         walker.transform.parent = this.transform;
         walker.transform.localPosition = Vector3.zero;
+        //character.transform.rotation = Quaternion.Euler(90, 0, 0);
         character.transform.SetParent(walker.transform);
+        //character.transform.localEulerAngles = new Vector3(0, 0, 90);
         walker.transform.up = path.GetVelocity(0);
         StarLauncherWalker walkerComp = walker.AddComponent<StarLauncherWalker>();
         walkerComp.spline = path;
         walkerComp.duration = 5f;
-        walkerComp.lookForward = true;
+        walkerComp.lookForward = false;
         walkerComp.mode = SplineWalkerMode.Once;
         walkerComp.character = character;
         walkerComp.Events = new Queue<PathEvents>(events.OrderBy(e => e.progress));
