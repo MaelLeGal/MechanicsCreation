@@ -9,6 +9,8 @@ public class CharacterInputManager : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
     public event PlayerTriggeredStarLauncher starLauncherTriggerEvent;
 
+    public GameObject testPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,8 +56,13 @@ public class CharacterInputManager : MonoBehaviour
 
         character.SetNewState(character.handleInput(ref controller, ref moveDirection));
 
-        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-        character.transform.rotation = Quaternion.LookRotation(movement);
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        if (horizontal != 0 || vertical != 0)
+        {
+            Vector3 playerDirection = horizontal * Camera.main.transform.right + vertical * Camera.main.transform.forward;
+            testPlayer.transform.rotation = Quaternion.LookRotation(playerDirection);
+        }
 
     }
 
