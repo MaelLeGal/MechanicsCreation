@@ -35,6 +35,7 @@ public class StarLauncher : MonoBehaviour
 
     public Animator StarAnimator;
     public GameObject trail;
+    public Cinemachine.CinemachineFreeLook mainCamera;
 
     [SerializeField]
     private PathEvents[] events;
@@ -66,7 +67,6 @@ public class StarLauncher : MonoBehaviour
             Debug.Log(this.gameObject.transform.eulerAngles);
             Debug.Log(character.transform.eulerAngles);
             Debug.Log(character);
-            //_character.transform.SetPositionAndRotation(star.position, star.rotation);
             StarAnimator.SetTrigger("TriggerLaunch");
         }
     }
@@ -93,17 +93,17 @@ public class StarLauncher : MonoBehaviour
 
         walker.transform.parent = this.transform;
         walker.transform.localPosition = Vector3.zero;
-        //character.transform.rotation = Quaternion.Euler(90, 0, 0);
         character.transform.SetParent(walker.transform);
-        //character.transform.localEulerAngles = new Vector3(0, 0, 90);
+        character.transform.localEulerAngles = new Vector3(90, 0, 0);
         walker.transform.up = path.GetVelocity(0);
         StarLauncherWalker walkerComp = walker.AddComponent<StarLauncherWalker>();
         walkerComp.spline = path;
         walkerComp.duration = 5f;
-        walkerComp.lookForward = false;
+        walkerComp.lookForward = true;
         walkerComp.mode = SplineWalkerMode.Once;
         walkerComp.character = character;
         walkerComp.Events = new Queue<PathEvents>(events.OrderBy(e => e.progress));
+        walkerComp.mainCamera = mainCamera;
     }
 
     private void AttachTrailToCharacter()

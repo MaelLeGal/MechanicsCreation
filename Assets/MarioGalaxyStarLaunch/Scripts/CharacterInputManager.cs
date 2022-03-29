@@ -61,7 +61,7 @@ public class CharacterInputManager : MonoBehaviour
         if (horizontal != 0 || vertical != 0)
         {
             Vector3 playerDirection = horizontal * Camera.main.transform.right + vertical * Camera.main.transform.forward;
-            testPlayer.transform.rotation = Quaternion.LookRotation(playerDirection);
+            character.transform.rotation = Quaternion.LookRotation(playerDirection);
         }
 
     }

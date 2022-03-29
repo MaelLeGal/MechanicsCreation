@@ -10,11 +10,12 @@ public class StarLauncherWalker : SplineWalker
 
 	public GameObject character;
 	public Animator characterAnimator;
+	public Cinemachine.CinemachineFreeLook mainCamera;
 
 	private void Start()
     {
 		this.gameObject.transform.position = spline.GetControlPoint(0);
-		characterAnimator = character.GetComponent<Animator>();
+		characterAnimator = character.GetComponentInChildren<Animator>();
 	}
 
     private void Update()
@@ -26,7 +27,7 @@ public class StarLauncherWalker : SplineWalker
 			{
 				if (mode == SplineWalkerMode.Once)
 				{
-
+					mainCamera.MoveToTopOfPrioritySubqueue();
 					Destroy(this.GetComponentInChildren<TrailRenderer>().gameObject);
 					character.transform.rotation = Quaternion.identity;
 					character.GetComponent<Character>().SetNewState(CharacterStateEnum.FALLING); // Change to notification ?
@@ -70,10 +71,6 @@ public class StarLauncherWalker : SplineWalker
 		{
 			transform.LookAt(position + spline.GetDirection(progress));
 		}
-
-		transform.up = position + spline.GetDirection(progress);
-		//character.transform.localEulerAngles = new Vector3(90, 0, 0);
-		//character.transform.up = (position + spline.GetDirection(progress));
 	}
 
 	private void ProcessPathEvent()
