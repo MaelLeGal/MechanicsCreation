@@ -8,7 +8,7 @@
 
 From Maël Le Gal, inspired by MixAndJam [video](https://www.youtube.com/watch?v=T_3cne2tzYM) and [Github](https://github.com/mixandjam/MarioGalaxy-LaunchStar).
 <p align="center">
-    ![Alt Text](./Gifs/MarioGalaxyLaunchStar.gif)
+    <img src="Gifs/MarioGalaxyLaunchStar.gif" alt="animated></img>
 </p>
 
 ## Character
@@ -30,7 +30,7 @@ For the camera, I used the Cinemachine camera to create the Third Person Camera 
 To create the path followed by the player once he is launch from a star, I used the [CatLikeCoding Tutorial](https://catlikecoding.com/unity/tutorials/curves-and-splines/) to implement a tool to create Bezier curves and make a walker on those curve. The script created gives us tools directly in the scene and the editor using handle for example to move the control points of the curves.
 
 <p align="center">
-    <img src="Images/MarioGalaxyBezierSplieTool.PNG"></img>
+    <img src="Images/MarioGalaxyBezierSplineTool.PNG"></img>
 </p>
 
 ## Star Launch
