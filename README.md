@@ -9,7 +9,7 @@
 From Maël Le Gal, inspired by MixAndJam [video](https://www.youtube.com/watch?v=T_3cne2tzYM) and [Github](https://github.com/mixandjam/MarioGalaxy-LaunchStar).
 
 <p align="center">
-    <img src="Gifs/MarioGalaxyLaunchStar.gif" alt="animated></img>
+    <img src="Gifs/MarioGalaxyLaunchStar.gif" alt="animated"></img>
 </p>
 
 ## Character
