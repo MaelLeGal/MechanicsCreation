@@ -8,7 +8,7 @@
 
 From Maël Le Gal, inspired by MixAndJam [video](https://www.youtube.com/watch?v=T_3cne2tzYM) and [Github](https://github.com/mixandjam/MarioGalaxy-LaunchStar).
 <p align="center">
-    ![Alt Text](Gifs/MarioGalaxyLaunchStar.gif)
+    ![Alt Text](./Gifs/MarioGalaxyLaunchStar.gif)
 </p>
 
 ## Character
@@ -30,7 +30,7 @@ For the camera, I used the Cinemachine camera to create the Third Person Camera 
 To create the path followed by the player once he is launch from a star, I used the [CatLikeCoding Tutorial](https://catlikecoding.com/unity/tutorials/curves-and-splines/) to implement a tool to create Bezier curves and make a walker on those curve. The script created gives us tools directly in the scene and the editor using handle for example to move the control points of the curves.
 
 <p align="center">
-    <img src="Images/MarioGalaxyBezierSplieTool.png"></img>
+    <img src="Images/MarioGalaxyBezierSplieTool.PNG"></img>
 </p>
 
 ## Star Launch
@@ -40,7 +40,7 @@ The Star Launch is composed of two major script, the StarLauncher and the StarLa
 In the StarLauncher, two structure were defined to create events along the path, the event would take a value corresponding to the progression on the path, and could take either or both an animation name, and a camera with a structure for the transform to follow or look at. Those events would be pushed into a Queue that will then be passed to the walker at his creation. The walker will then process those events at the corresponding time on the progress along the path.
 
 <p align="center">
-    <img src="Images/MarioGalaxyStarLauncherWithEvents.png"></img>
+    <img src="Images/MarioGalaxyStarLauncherWithEvents.PNG"></img>
 </p>
 
 ## Animations and Particle effects
@@ -48,6 +48,6 @@ In the StarLauncher, two structure were defined to create events along the path,
 Just like I mentionned previously, I used animations in this project. Those animations were tied to the creation of the walker using events at certain key frames. It's also using those same events that the particles emitters are started or stopped.
 
 <p align="center">
-    <img src="Images/MarioGalaxyStarLaunchAnimation.png"></img>
+    <img src="Images/MarioGalaxyStarLaunchAnimation.PNG"></img>
     <img src="Images/MarioGalaxyParticlesEffects.png"></img>
 </p>
